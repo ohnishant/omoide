@@ -37,7 +37,7 @@ the handoff, not a formality.
 | Ticket | Title | Wave | Depends on | Status |
 |---|---|---|---|---|
 | T01 | Monorepo foundations | 0 | - | done |
-| T02 | contracts package | 1 | T01 | open |
+| T02 | contracts package | 1 | T01 | done |
 | T03 | db package | 1 | T01 | open |
 | T04 | Infra SST stack | 1 | T01 | open |
 | T05 | Mobile foundation: theme, shell, auth | 2 | T01 | open |

@@ -14,9 +14,14 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "tsc --noEmit -p tsconfig.json",
-    "test": "node -e \"console.log('no tests yet')\""
+    "test": "vitest run --dir src"
   },
   "devDependencies": {
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "hono": "^4.13.3",
+    "zod": "^4.4.3"
   }
 }

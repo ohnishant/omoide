@@ -60,4 +60,34 @@ You are implementing CONTRACTS.md §1-§5 verbatim. That file is your spec:
 
 ## Async log
 
-(append: date, what you decided or hit, why)
+- 2026-08-22 — Implemented §1-§5 as zod v4 schemas (`src/domain|auth|bakos|
+  uploads|downloads|errors.ts`) + constants. Runtime deps are exactly `zod`
+  and `hono` (hono needed at type level for `AppType`; vitest is dev-only).
+- 2026-08-22 — "402-style 403" for `bako_limit_reached` read as: HTTP status
+  is **403**, paywall flavor carried by the error code. Clients must switch
+  on `code`, never on status (also true for quota_exceeded=413 vs generic
+  rejections). Flagged in ERROR_STATUS doc comment.
+- 2026-08-22 — Upload-init response `thumbnail` slot modeled nullable and the
+  request-thumb link documented in schema comments: response carries a slot
+  iff request `thumb` was non-null. T09: switch on that, don't guess.
+- 2026-08-22 — `AppType` derived from a stub Hono app in `src/app-type.ts`
+  with typed fixtures, so `hc<AppType>` infers exact request/response types.
+  index.ts re-exports **only** `type AppType`; dist/index.js has zero hono
+  imports (verified) — share extension stays hono-free. T07 should replace
+  stubs with real handlers but keep this module's shape (or re-export from
+  api) so T08 client typing keeps compiling.
+- 2026-08-22 — Wrote hand-rolled `vJson`/`vQuery` middleware inside
+  app-type.ts that mimics zValidator's `{in,out}` typing so request bodies/
+  query params infer without adding `@hono/zod-validator` (ticket caps deps).
+  It also actually validates and returns the §1 invalid_request envelope.
+  T07 may swap in zod-validator; input types must stay identical.
+- 2026-08-22 — POST /bakos stub encodes the success+error union
+  (`BakoDetail | ErrorEnvelope`) as the one proven error path in type tests;
+  per §1 any route can return the envelope, only this one is type-visible.
+- 2026-08-22 — Assumption: `platform` on POST /devices constrained to
+  `'ios' | 'android'` (CONTRACTS.md left it open). Edit contracts if more
+  platforms needed later.
+- 2026-08-22 — Gotchas for next agents: package tsconfig adds DOM lib
+  (hono types reference fetch globals); vitest runs `--dir src` so dist test
+  copies aren't collected; TypeScript 6 requires parenthesizing
+  `(typeof x)["prop"]` chains in type-level tests.
