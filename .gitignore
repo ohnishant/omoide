@@ -1,6 +1,9 @@
 # dependencies
 node_modules/
 
+# turbo
+.turbo/
+
 # Expo
 .expo/
 dist/

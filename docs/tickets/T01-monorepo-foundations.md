@@ -2,6 +2,7 @@
 
 Wave 0 (serial gate, everything else waits on this) · Depends on: nothing
 Owns: root of repo, `apps/`, `packages/`, `infra/` skeletons, `AGENTS.md`
+Status: done
 
 ## Goal
 
@@ -59,4 +60,31 @@ CONTRACTS.md header block. Concretely, after this ticket:
 
 ## Async log
 
-(append: date, what you decided or hit, why)
+- 2026-08-22 — Restructure done on branch `t01-monorepo-foundations`.
+  `.npmrc` written before first install per gotcha; scaffold moved with
+  `git mv app apps/mobile` (history preserved); clean `pnpm install` with
+  hoisted linker.
+- 2026-08-22 — Decisions taken inside owned paths:
+  - Package placeholders compile via plain `tsc`; `lint` for the three
+    packages is `tsc --noEmit` until a repo-wide ESLint config is introduced
+    (mobile keeps its own `expo lint` + eslint-config-expo, which `expo lint`
+    auto-installed during baseline verification).
+  - Mobile `tsconfig.json` extends `["../../tsconfig.base.json",
+    "expo/tsconfig.base"]` — expo base last so RN-specific settings win.
+  - Added `metro.config.js` in mobile with `watchFolders = [workspaceRoot]`
+    and dual `nodeModulesPaths` (project + root) so Metro resolves the hoisted
+    workspace packages.
+  - Fixed one pre-existing lint error the scaffold shipped with
+    (`src/hooks/use-color-scheme.web.ts` setState-in-effect → rewritten with
+    `useSyncExternalStore`); added `global.d.ts` for CSS-module imports the
+    scaffold uses; deleted stale npm lockfile.
+  - Versions pinned exactly as inherited from the SDK 57 scaffold
+    (expo ~57.0.15, RN 0.86.2, react 19.2.3) — satisfies the ≥57.0.9 floor.
+- 2026-08-22 — Not verified here (no simulator on this machine): the actual
+  `pnpm --filter mobile ios/android` dev-client boot. Everything short of it
+  is green from root: `pnpm install && pnpm build && pnpm typecheck && pnpm
+  lint && pnpm test`. First agent on a Mac should boot once and clear
+  watchman caches if anything looks stale.
+- 2026-08-22 — Left broken/assumed: nothing known-broken. `infra/` dir not
+  created yet — T04 owns it and pnpm-workspace intentionally does not include
+  it until it has a package.json.

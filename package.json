@@ -1,0 +1,19 @@
+{
+  "name": "omoide",
+  "private": true,
+  "packageManager": "pnpm@10.28.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8",
+    "typescript": "~6.0.3"
+  }
+}
