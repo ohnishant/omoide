@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-22T20:40:00Z",
+  "title": "Design System: Omoide",
+  "extensions": {
+    "colorMeta": {
+      "cream": { "role": "neutral", "displayName": "Cream Paper", "canonical": "#F5F0E8", "tonalRamp": ["#352a17", "#5e4a29", "#87693b", "#af894c", "#c2a473", "#d4be9c", "#e6d9c5", "#f7f3ed"] },
+      "parchment": { "role": "neutral", "displayName": "Parchment", "canonical": "#EDE5D4", "tonalRamp": ["#362c17", "#5f4d28", "#886f39", "#b1904a", "#c4aa72", "#d5c29b", "#e6dbc4", "#f7f4ed"] },
+      "warm-white": { "role": "neutral", "displayName": "Warm White", "canonical": "#FEFCF8", "tonalRamp": ["#43300a", "#765411", "#a97918", "#dc9d1f", "#e6b450", "#edca83", "#f5e0b6", "#fcf5e9"] },
+      "terracotta": { "role": "primary", "displayName": "Terracotta", "canonical": "#C26B54", "tonalRamp": ["#381c14", "#633123", "#8e4633", "#b95b42", "#ca7f6b", "#daa496", "#e9cac1", "#f8efec"] },
+      "terracotta-deep": { "role": "primary", "displayName": "Kiln Deep", "canonical": "#A54D35", "tonalRamp": ["#3a1b13", "#663021", "#92442f", "#be593d", "#ce7d67", "#dca393", "#ebc9c0", "#f9efec"] },
+      "dusty-rose": { "role": "secondary", "displayName": "Dusty Rose", "canonical": "#D4857A", "tonalRamp": ["#3a1713", "#662921", "#923b2f", "#be4d3d", "#ce7468", "#dc9d94", "#ebc5c0", "#f9edec"] },
+      "forest": { "role": "secondary", "displayName": "Forest Moss", "canonical": "#4A7C59", "tonalRamp": ["#1d3022", "#32543d", "#487957", "#5e9d71", "#82b491", "#a6cab1", "#cbe0d1", "#eff5f1"] },
+      "espresso": { "role": "neutral", "displayName": "Espresso Ink", "canonical": "#3A2F2A", "tonalRamp": ["#2c2420", "#4e3f39", "#705b51", "#92766a", "#ab958b", "#c3b4ad", "#dcd3ce", "#f4f1f0"] },
+      "cocoa": { "role": "neutral", "displayName": "Cocoa", "canonical": "#7A5C4A", "tonalRamp": ["#30241d", "#543f33", "#785b49", "#9c765f", "#b39582", "#c9b4a7", "#dfd3cb", "#f5f1ef"] },
+      "warm-muted": { "role": "neutral", "displayName": "Warm Taupe (decorative only)", "canonical": "#A08070", "tonalRamp": ["#2e241f", "#513f36", "#745a4d", "#977564", "#af9487", "#c6b3aa", "#ded2cd", "#f5f1f0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display / Wordmark", "purpose": "Omoide wordmark and welcome greeting; the only serif moments in the app." },
+      "title": { "displayName": "Title", "purpose": "Screen titles and Bako names." },
+      "headline": { "displayName": "Headline", "purpose": "Button labels, list row titles, section headers." },
+      "body": { "displayName": "Body", "purpose": "Primary reading text and sheet descriptions." },
+      "label": { "displayName": "Label", "purpose": "Tab items, chips, badges, over-photo contributor tags." },
+      "metadata": { "displayName": "Metadata", "purpose": "Timestamps, member counts, storage figures — always Cocoa ink." }
+    },
+    "shadows": [
+      { "name": "card", "value": "0 1px 2px rgba(58,47,42,0.06), 0 4px 12px rgba(58,47,42,0.08)", "purpose": "Bako cards and Polaroid grid cells — barely-there lift off the paper." },
+      { "name": "float", "value": "0 6px 16px rgba(58,47,42,0.16), 0 12px 32px rgba(58,47,42,0.14)", "purpose": "Floating multi-select action bar and dragged elements — genuinely above the page." }
+    ],
+    "motion": [
+      { "name": "rise-sheet", "value": "spring(stiffness ~300, damping ~28) or 280ms ease-out", "purpose": "Bottom sheets rise from the dock; dismiss reverses the entrance." },
+      { "name": "press-deepen", "value": "120ms ease-out background shift to terracotta-deep", "purpose": "Pressed primary buttons deepen like sun-warmed clay." },
+      { "name": "reduce-motion", "value": "crossfade 150ms", "purpose": "All entrances become crossfades under Reduce Motion." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one terracotta voice per screen; label never below 17pt so contrast holds AA-large.",
+      "html": "<button class=\"ds-btn-primary\">Create Bako</button>",
+      "css": ".ds-btn-primary { background: #C26B54; color: #FEFCF8; font-family: system-ui, sans-serif; font-size: 17px; font-weight: 500; line-height: 22px; border: none; border-radius: 10px; height: 50px; padding: 13px 24px; } .ds-btn-primary:hover { background: #BE6450; } .ds-btn-primary:active { background: #A54D35; } .ds-btn-primary:focus-visible { outline: 2px solid #A54D35; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Tonal parchment sibling of the primary button; same geometry, no border.",
+      "html": "<button class=\"ds-btn-secondary\">Pick a cover</button>",
+      "css": ".ds-btn-secondary { background: #EDE5D4; color: #3A2F2A; font-family: system-ui, sans-serif; font-size: 17px; font-weight: 500; line-height: 22px; border: none; border-radius: 10px; height: 50px; padding: 13px 24px; } .ds-btn-secondary:active { background: #E3D8BF; } .ds-btn-secondary:focus-visible { outline: 2px solid #C26B54; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "button",
+      "refersTo": "terracotta-deep",
+      "description": "Interactive text on paper backgrounds uses Kiln Deep for AA contrast.",
+      "html": "<a href=\"#\" class=\"ds-link\">Download all</a>",
+      "css": ".ds-link { color: #A54D35; font-family: system-ui, sans-serif; font-size: 17px; font-weight: 400; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(165,77,53,0.4); } .ds-link:hover { text-decoration-color: #A54D35; }"
+    },
+    {
+      "name": "Bako Card",
+      "kind": "card",
+      "refersTo": "card-bako",
+      "description": "Signature card: 2x2 mosaic cover on warm white with trip name and quiet metadata.",
+      "html": "<div class=\"ds-bako\"><div class=\"ds-mosaic\"><div></div><div></div><div></div><div class=\"ds-empty\"></div></div><div class=\"ds-bako-meta\"><div class=\"ds-bako-name\">Kyoto 2024</div><div class=\"ds-bako-sub\">4 members · 128 photos</div></div></div>",
+      "css": ".ds-bako { background: #FEFCF8; border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px rgba(58,47,42,0.06), 0 4px 12px rgba(58,47,42,0.08); width: 280px; font-family: system-ui, sans-serif; } .ds-mosaic { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; border-radius: 6px; overflow: hidden; aspect-ratio: 1.4; margin-bottom: 12px; } .ds-mosaic div { background: #d9cdb6; } .ds-mosaic .ds-empty { background: #EDE5D4; } .ds-bako-name { font-size: 17px; font-weight: 500; color: #3A2F2A; line-height: 22px; } .ds-bako-sub { font-size: 13px; font-weight: 400; color: #7A5C4A; line-height: 18px; margin-top: 2px; }"
+    },
+    {
+      "name": "Polaroid Cell",
+      "kind": "custom",
+      "refersTo": "polaroid-cell",
+      "description": "Grid print: warm-white border, tiny radius, soft shadow; contributor tag on tap.",
+      "html": "<figure class=\"ds-polaroid\"><div class=\"ds-photo\"></div></figure>",
+      "css": ".ds-polaroid { background: #FEFCF8; border-radius: 6px; padding: 3px 3px 10px; box-shadow: 0 1px 2px rgba(58,47,42,0.06), 0 4px 12px rgba(58,47,42,0.08); width: 96px; margin: 0; } .ds-photo { background: linear-gradient(160deg, #d9cdb6 0%, #c9b795 100%); border-radius: 3px; aspect-ratio: 1; position: relative; } .ds-photo::after { content: \"Mika · Tue\"; position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 6px; font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #FEFCF8; background: rgba(58,47,42,0.55); border-radius: 0 0 3px 3px; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Strokeless warm-white field; terracotta focus border, espresso caret.",
+      "html": "<input class=\"ds-input\" placeholder=\"Name this Bako\" />",
+      "css": ".ds-input { background: #FEFCF8; color: #3A2F2A; caret-color: #3A2F2A; font-family: system-ui, sans-serif; font-size: 17px; border: none; border-radius: 10px; height: 44px; padding: 10px 16px; width: 260px; } .ds-input::placeholder { color: #7A5C4A; opacity: 0.7; } .ds-input:focus { outline: none; box-shadow: inset 0 0 0 1.5px #C26B54; }"
+    },
+    {
+      "name": "Member Chip",
+      "kind": "chip",
+      "refersTo": "member-chip",
+      "description": "Avatar pill from the fill cycle with initials in Warm White; filter bar unit.",
+      "html": "<span class=\"ds-chip ds-chip-selected\">MK</span> <span class=\"ds-chip\" style=\"background:#4A7C59\">JT</span> <span class=\"ds-chip\" style=\"background:#A08070\">AS</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 999px; background: #D4857A; color: #FEFCF8; font-family: system-ui, sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.02em; } .ds-chip-selected { box-shadow: 0 0 0 2px #F5F0E8, 0 0 0 4px #C26B54; }"
+    },
+    {
+      "name": "Bottom Sheet Panel",
+      "kind": "custom",
+      "refersTo": "bottom-sheet",
+      "description": "Every contextual decision lives here: warm white, grabber, radius-16 top corners.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-grabber\"></div><div class=\"ds-sheet-title\">Send to a Bako</div><div class=\"ds-sheet-body\">Kyoto 2024 · 4 members</div></div>",
+      "css": ".ds-sheet { background: #FEFCF8; border-radius: 16px 16px 0 0; padding: 8px 24px 32px; width: 320px; font-family: system-ui, sans-serif; box-shadow: 0 -6px 24px rgba(58,47,42,0.12); } .ds-grabber { width: 36px; height: 5px; border-radius: 999px; background: #A08070; margin: 4px auto 16px; } .ds-sheet-title { font-size: 22px; font-weight: 500; color: #3A2F2A; line-height: 28px; } .ds-sheet-body { font-size: 17px; font-weight: 400; color: #7A5C4A; line-height: 22px; margin-top: 8px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sun-Faded Shoebox",
+    "overview": "Omoide feels like pulling a cardboard shoebox down from a closet shelf: photo prints with soft white borders, handwritten trip names, paper that has warmed with age. Every surface is paper-toned, every shadow is soft afternoon light, and the single kiln-fired accent color appears only where a thumb-worn edge would be rubbed — the one primary action on a screen. Density is generous, never dense; whitespace is the mat around the print.\n\nThe world is tactile and analog against an app that is technically rigorous underneath (byte-exact originals, presigned uploads). The interface recedes; the photos carry the color. Screens read as warm paper first, photography second, chrome last.",
+    "keyCharacteristics": [
+      "Warm paper neutrals everywhere; no pure black, pure white, or blue anywhere",
+      "One earthy accent (terracotta) used sparingly as the voice of action",
+      "Polaroid treatment: grid cells wear warm-white borders like prints",
+      "Bottom sheets for every contextual decision; full-screen modals only for immersion",
+      "Two font weights, sentence case, system type — the design lives in tokens, not type"
+    ],
+    "rules": [
+      { "name": "The Google Photos Test", "body": "If a choice makes a screen feel like Google Photos — cool grays, blue links, infinite white chrome — it is wrong, whatever the heuristic says.", "section": "colors" },
+      { "name": "The No Extremes Rule", "body": "No pure black (#000000), no pure white (#FFFFFF), no blue-hued anything in the palette. Depth and ink are always warm-tinted.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Terracotta speaks once per screen. If two elements compete in accent color, one of them is wrong.", "section": "colors" },
+      { "name": "The Readable Ink Rule", "body": "Words a user must read are Espresso or Cocoa only. Warm Taupe may fade chrome, never copy.", "section": "colors" },
+      { "name": "The Two-Weight Rule", "body": "Weights 400 and 500 exist; nothing else does. Emphasis comes from size, color, or weight 500 — never from bold, italic, or uppercase shouting.", "section": "typography" },
+      { "name": "Sentence Case Rule", "body": "Every string in the UI is sentence case. \"New Bako\", never \"NEW BAKO\" or \"New bako\".", "section": "typography" },
+      { "name": "The Paper Stack Rule", "body": "Prefer tonal layering (surface color changes) over shadows. If an element rests on the page, give it a lighter paper tone before giving it a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do route every color, space, radius, font, and shadow through theme tokens — zero hardcoded hex outside theme.ts (CONTRACTS §10).",
+      "Do keep terracotta for exactly one primary action per screen; use Kiln Deep for interactive text on paper backgrounds.",
+      "Do design empty, loading, and error states with the same paper warmth — skeleton cells in Parchment, never eternal spinners.",
+      "Do show upload/download progress as badges and feed lines; resumable progress cards live in sheets, not takeover screens.",
+      "Do lock light mode (userInterfaceStyle); the future dark palette will be a \"lamplight\" swap behind these same token names."
+    ],
+    "donts": [
+      "Don't introduce cool grays, blues, or pure black/white — the Google Photos Test fails the whole screen.",
+      "Don't use font weights beyond 400/500, uppercase labels, or non-sentence-case copy.",
+      "Don't open a full-screen modal for a single decision; that is a bottom sheet.",
+      "Don't let Warm Taupe carry readable text (use Cocoa), or Dusty Rose sit behind copy.",
+      "Don't add likes, comments, feeds, or any social-discovery pattern — Omoide is a private shelf, and its design must never imply otherwise."
+    ]
+  }
+}

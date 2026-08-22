@@ -301,3 +301,8 @@ Download engine boundary (T13): `enqueueDownload(asset, mode)` where mode is
 ## Changelog
 
 - Initial freeze, derived from PRD §3, §5, §6, §7, §9.
+- 2026-08-22 (T16 design gate): §10 adds `color.cocoa #7A5C4A` (readable
+  secondary text; warmMuted fails AA on cream) and `color.terracottaDeep
+  #A54D35` (interactive text on paper). Usage rules: warmMuted is
+  decorative-only; terracotta fills carry warmWhite labels at ≥17pt/500;
+  forest as text only ≥17pt/500. See DESIGN.md for the full language.

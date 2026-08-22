@@ -45,6 +45,26 @@ join/[token], welcome, tutorial, photo viewer, handle-share, settings):
   devices, issues found logged and fixed.
 - Lint/typecheck green repo-wide; no hex outside theme.ts verified by search.
 
+## Status
+
+done
+
 ## Async log
 
-(append: date, what you decided or hit, why)
+- 2026-08-22 · Design-language gate run ahead of screens (owner-directed).
+  Produced `PRODUCT.md`, `DESIGN.md` ("The Sun-Faded Shoebox" world from PRD §4)
+  and `.impeccable/design.json` sidecar via the impeccable loop.
+  Findings fixed at token level:
+  1. `warmMuted #A08070` fails AA for text on cream/parchment (3.18/2.88:1) →
+     demoted to decorative-only (disabled, dividers); new readable secondary
+     text token **cocoa #7A5C4A** added (5.35/4.85:1). CONTRACTS §10 needs a
+     changelog entry when T05 builds theme.ts.
+  2. Interactive text on paper gets new token **terracottaDeep #A54D35**
+     (4.99:1 on cream); terracotta fills keep #FEFCF8 labels only at ≥17 pt/500
+     (3.71:1 = WCAG large-text pass).
+  3. Forest as small text restricted to ≥17pt/500 (4.29:1); free as non-text.
+- Per-screen polish passes were not run because no Omoide screens exist yet
+  (`app/` is still the stock Expo scaffold). Each screen ticket (T05, T10–T15)
+  must apply DESIGN.md + this checklist at build time; re-run an impeccable
+  pass over the real screens before store submission prep (PRD phase 10).
+  Marking done per owner instruction; the checklist above remains binding.

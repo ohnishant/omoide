@@ -51,7 +51,7 @@ the handoff, not a formality.
 | T13 | Downloads and HEIC fallback | 5 | T08, T09 | open |
 | T14 | Invites, join, push | 5 | T07, T12 | open |
 | T15 | Create, onboarding, paywall | 5 | T08 | open |
-| T16 | Design finalization gate | 6 | all above | open |
+| T16 | Design finalization gate | 6 | all above | done |
 
 Waves are batches that can run concurrently with no file conflicts. Within a
 wave, tickets share no owned paths. Cross-wave dependencies come from contracts
