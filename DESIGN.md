@@ -12,6 +12,16 @@ colors:
   espresso: "#3A2F2A"
   cocoa: "#7A5C4A"
   warm-muted: "#A08070"
+  lamplight-base: "#161311"
+  lamplight-inset: "#2A2420"
+  lamplight-raised: "#42372E"
+  lamplight-ivory: "#F5F0E8"
+  lamplight-bone: "#EBE3D5"
+  lamplight-muted: "#A48B85"
+  lamplight-glow: "#FFB5A0"
+  lamplight-ember: "#DD7254"
+  lamplight-clay: "#BE5A3E"
+  lamplight-on-glow: "#5F1501"
 typography:
   display:
     fontFamily: "ui-serif, Georgia, serif"
@@ -73,6 +83,18 @@ components:
   card-bako:
     backgroundColor: "{colors.warm-white}"
     textColor: "{colors.espresso}"
+    rounded: "{rounded.lg}"
+    padding: 16
+  button-primary-lamplight:
+    backgroundColor: "{colors.lamplight-glow}"
+    textColor: "{colors.lamplight-on-glow}"
+    typography: "{typography.headline}"
+    rounded: "{rounded.md}"
+    height: 50
+    padding: "13 24"
+  card-bako-lamplight:
+    backgroundColor: "{colors.lamplight-raised}"
+    textColor: "{colors.lamplight-ivory}"
     rounded: "{rounded.lg}"
     padding: 16
   polaroid-cell:
@@ -158,8 +180,34 @@ blue-hued anything in the palette. Depth and ink are always warm-tinted.
 **The One Voice Rule.** Terracotta speaks once per screen. If two elements compete in
 accent color, one of them is wrong.
 
-**The Readable Ink Rule.** Words a user must read are Espresso or Cocoa only. Warm
-Taupe may fade chrome, never copy.
+**The Readable Ink Rule.** Words a user must read are Espresso or Cocoa only (light) or
+Ivory/Bone/Muted only (Lamplight). Taupe may fade chrome, never copy.
+
+### Lamplight (Dark Variant)
+
+The same shoebox after dark, read by a single desk lamp: deep warm brown-black paper,
+glowing clay accents, off-white ink. Values below are validated against this variant's
+surfaces; the light-mode rules above all hold unchanged.
+
+- **Midnight Base** (#161311): primary canvas. Warm brown-black, deliberately not black.
+- **Dark Chocolate** (#2A2420): inset surfaces — bottom sheets, input fields, recessed wells.
+- **Deep Amber** (#42372E): raised card surfaces (Bako cards), tonal lift without shadow.
+- **Soft Ivory** (#F5F0E8): primary text and Polaroid frames on dark (16.3:1). The same
+  value as cream — daylight paper becomes nighttime ink.
+- **Warm Bone** (#EBE3D5): body copy alternative (9.1:1 on raised surfaces).
+- **Muted Umber** (#A48B85): readable secondary/metadata ink on dark (5.8:1); also the
+  sheet grabber. Decorative-only values do not exist in this variant's text roles.
+- **Candle Glow** (#FFB5A0): primary button fill, active states — the lamp flame.
+  Labels in **Ember Roast** (#5F1501) pass at any size (7.8:1).
+- **Kiln Ember** (#DD7254): interactive *text* on dark surfaces (5.8:1).
+- **Terracotta Glow** (#BE5A3E): accent fills and pressed states only — fails AA as
+  small text on the base (4.16:1), so it never carries words.
+- Success (#9DD3AA / #689C77 container) and error (#FFB4AB / #93000A container) keep
+  their light-mode roles; all pairings verified ≥4.5:1.
+
+**The Lamplight Rule.** Dark mode is a lighting change, not a palette swap of opposite
+extremes: every dark token keeps its light-mode role, no pure black or pure white ever
+appears, and glow replaces shadow — never gray inversion.
 
 ## Typography
 
@@ -218,6 +266,12 @@ under warm-white) and shadowless; shadow is reserved for things that physically 
 **The Paper Stack Rule.** Prefer tonal layering (surface color changes) over shadows.
 If an element rests on the page, give it a lighter paper tone before giving it a shadow.
 
+**The Lamplight Glow Rule (dark only).** Depth inverts after dark: hierarchy steps from
+darkest to lightest (Base #161311 → Chocolate #2A2420 → Amber #42372E), raised elements
+carry a faint warm bloom (`0 0 24px rgba(255,181,160,0.12)`) instead of a drop shadow,
+and insets read as cut-into-the-surface by being darker than their surround. Bloom
+always keeps a soft blur — a hard halo is never a glow.
+
 ## Shapes
 
 Soft but not bubbly. Radius scale: sm 6 (grid cells, small chips), md 10 (buttons,
@@ -236,17 +290,23 @@ card is the one intentional sketch gesture — dashed Parchment border on Cream.
 - **Primary:** Terracotta fill, Warm White label at Headline (17/500). Label size never
   drops below 17 pt so the 3.71:1 fill/label pair holds WCAG large-text AA. Pressed
   state deepens fill to Kiln Deep.
-- **Secondary:** Parchment fill, Espresso label. Same geometry; no border.
+- **Primary (Lamplight):** Candle Glow #FFB5A0 fill with Ember Roast #5F1501 label —
+  passes AA at any size (7.8:1). Pressed deepens through Kiln Ember to Terracotta Glow.
+- **Secondary:** Parchment fill, Espresso label. Same geometry; no border. Lamplight:
+  Deep Amber #42372E fill, Warm Bone label.
 - **Text/link:** no fill; Cocoa text, or Kiln Deep when the text itself is the action.
-- **Disabled:** Warm Taupe fill, Cream label; no opacity tricks.
+  Lamplight: Kiln Ember #DD7254 text (never Terracotta Glow — fails 4.5:1).
+- **Disabled:** Warm Taupe fill, Cream label; no opacity tricks. Lamplight: Dark
+  Chocolate fill, Muted Umber label.
 
 ### Bako Card (signature)
 
-- **Cover:** 2×2 mosaic of the four most-recent uploads; empty cells filled Parchment;
-  pending uploads project shimmer slots into the mosaic.
-- **Surface:** Warm White, radius 16, card shadow, internal padding 16.
-- **Meta row:** Title-weight trip name (Espresso), Metadata member count + quota
-  (Cocoa), Dusty Rose dot for "N new".
+- **Cover:** 2×2 mosaic of the four most-recent uploads; empty cells filled Parchment
+  (Dark Chocolate in Lamplight); pending uploads project shimmer slots into the mosaic.
+- **Surface:** Warm White, radius 16, card shadow, internal padding 16. Lamplight:
+  Deep Amber surface, glow bloom instead of shadow.
+- **Meta row:** Title-weight trip name (Espresso / Soft Ivory), Metadata member count +
+  quota (Cocoa / Muted Umber), Dusty Rose dot for "N new".
 - **Upload progress:** badge on the card plus an activity-feed line — never a modal,
   never a progress screen.
 
@@ -267,7 +327,8 @@ card is the one intentional sketch gesture — dashed Parchment border on Cream.
 ### Inputs / Fields
 
 - **Style:** Warm White fill, radius 10, no stroke at rest; 1 px Warm Taupe-alpha
-  border only when the surrounding surface is also Warm White.
+  border only when the surrounding surface is also Warm White. Lamplight: Dark
+  Chocolate fill, Soft Ivory text, Terracotta Glow caret.
 - **Focus:** border shifts to Terracotta; caret is Espresso.
 - **Error:** message in a deepened Forest-independent clay red is avoided — errors use
   Espresso text on Parchment with a Terracotta left icon; recovery is always stated.
@@ -285,6 +346,7 @@ card is the one intentional sketch gesture — dashed Parchment border on Cream.
 Multi-select's companion: pill container (radius 999... visually radius 16 capsule),
 Warm White, float shadow, "Download (3)" primary + deselect ghost. Anchors above the
 home indicator, enters with a spring rise, honors Reduce Motion with a crossfade.
+Lamplight: Deep Amber container lifted by a soft glow bloom, no drop shadow.
 
 ## Do's and Don'ts
 
@@ -310,3 +372,7 @@ home indicator, enters with a spring rise, honors Reduce Motion with a crossfade
 - **Don't** let Warm Taupe carry readable text (use Cocoa), or Dusty Rose sit behind copy.
 - **Don't** add likes, comments, feeds, or any social-discovery pattern — Omoide is a
   private shelf, and its design must never imply otherwise.
+- **Don't** invert to gray for dark mode: Lamplight tokens are warm-tinted by value,
+  glow replaces shadow, and pure black/white stay banned in both modes.
+- **Don't** introduce brand text faces (Inter, Noto Serif, etc.) in either mode — the
+  system sans carries UI; the serif belongs to the wordmark alone.

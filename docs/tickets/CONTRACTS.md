@@ -306,3 +306,9 @@ Download engine boundary (T13): `enqueueDownload(asset, mode)` where mode is
   #A54D35` (interactive text on paper). Usage rules: warmMuted is
   decorative-only; terracotta fills carry warmWhite labels at ≥17pt/500;
   forest as text only ≥17pt/500. See DESIGN.md for the full language.
+- 2026-08-22 (Lamplight dark variant): §10 reserves the `lamplight*` token
+  family (base #161311, inset #2A2420, raised #42372E, ivory/bone text,
+  muted #A48B85 metadata, glow #FFB5A0 + on-glow #5F1501 button pair,
+  ember #DD7254 link text, clay #BE5A3E fills/pressed). Contrast-validated
+  in DESIGN.md. v1 still ships light-only with `userInterfaceStyle` locked
+  (PRD §4); these tokens exist so the future swap is mechanical.

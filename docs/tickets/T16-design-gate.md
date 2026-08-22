@@ -68,3 +68,11 @@ done
   must apply DESIGN.md + this checklist at build time; re-run an impeccable
   pass over the real screens before store submission prep (PRD phase 10).
   Marking done per owner instruction; the checklist above remains binding.
+- 2026-08-22 · Owner supplied an external dark-theme draft ("Omoide
+  Lamplight"). Validated against impeccable parser + WCAG math: adopted its
+  color values as the `lamplight*` token family but rejected its Material-3
+  naming dump, rem units, Noto Serif/Inter faces, and altered radius scale
+  (design ideology stays Sun-Faded Shoebox / system type / sm6-md10-lg16).
+  Fixes during validation: terracotta-glow demoted to fills only (4.16:1 as
+  text), button pairing switched to its own primary/on-glow pair (7.76:1),
+  grabber moved to Muted Umber. DESIGN.md + sidecar updated; doctor clean.

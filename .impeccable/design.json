@@ -13,7 +13,17 @@
       "forest": { "role": "secondary", "displayName": "Forest Moss", "canonical": "#4A7C59", "tonalRamp": ["#1d3022", "#32543d", "#487957", "#5e9d71", "#82b491", "#a6cab1", "#cbe0d1", "#eff5f1"] },
       "espresso": { "role": "neutral", "displayName": "Espresso Ink", "canonical": "#3A2F2A", "tonalRamp": ["#2c2420", "#4e3f39", "#705b51", "#92766a", "#ab958b", "#c3b4ad", "#dcd3ce", "#f4f1f0"] },
       "cocoa": { "role": "neutral", "displayName": "Cocoa", "canonical": "#7A5C4A", "tonalRamp": ["#30241d", "#543f33", "#785b49", "#9c765f", "#b39582", "#c9b4a7", "#dfd3cb", "#f5f1ef"] },
-      "warm-muted": { "role": "neutral", "displayName": "Warm Taupe (decorative only)", "canonical": "#A08070", "tonalRamp": ["#2e241f", "#513f36", "#745a4d", "#977564", "#af9487", "#c6b3aa", "#ded2cd", "#f5f1f0"] }
+      "warm-muted": { "role": "neutral", "displayName": "Warm Taupe (decorative only)", "canonical": "#A08070", "tonalRamp": ["#2e241f", "#513f36", "#745a4d", "#977564", "#af9487", "#c6b3aa", "#ded2cd", "#f5f1f0"] },
+      "lamplight-base": { "role": "neutral", "displayName": "Midnight Base (dark)", "canonical": "#161311", "tonalRamp": ["#171412", "#3b332e", "#5f524a", "#847266", "#a29287", "#beb3ab", "#dad4cf", "#f6f5f3"] },
+      "lamplight-inset": { "role": "neutral", "displayName": "Dark Chocolate (dark)", "canonical": "#2A2420", "tonalRamp": ["#171412", "#3c332d", "#605249", "#847165", "#a39286", "#bfb3ab", "#dad4cf", "#f6f5f3"] },
+      "lamplight-raised": { "role": "neutral", "displayName": "Deep Amber (dark)", "canonical": "#42372E", "tonalRamp": ["#181411", "#3e342b", "#645345", "#897260", "#a89382", "#c2b3a7", "#dcd4cd", "#f7f5f3"] },
+      "lamplight-ivory": { "role": "neutral", "displayName": "Soft Ivory (dark text)", "canonical": "#F5F0E8", "tonalRamp": ["#1c160c", "#493920", "#765c33", "#a27f47", "#bf9e6b", "#d2bb97", "#e5d9c4", "#f9f6f1"] },
+      "lamplight-bone": { "role": "neutral", "displayName": "Warm Bone (dark body)", "canonical": "#EBE3D5", "tonalRamp": ["#1c160d", "#473a22", "#735d37", "#9e804b", "#ba9f6f", "#cfbc9a", "#e4d9c6", "#f8f6f1"] },
+      "lamplight-muted": { "role": "neutral", "displayName": "Muted Umber (dark metadata)", "canonical": "#A48B85", "tonalRamp": ["#171311", "#3c302d", "#614d48", "#866a64", "#a48b85", "#c0aeaa", "#dbd1cf", "#f6f4f3"] },
+      "lamplight-glow": { "role": "primary", "displayName": "Candle Glow (dark accent)", "canonical": "#FFB5A0", "tonalRamp": ["#290900", "#691700", "#a92500", "#e93400", "#ff592a", "#ff8b6a", "#ffbdaa", "#ffefeb"] },
+      "lamplight-ember": { "role": "primary", "displayName": "Kiln Ember (dark link text)", "canonical": "#DD7254", "tonalRamp": ["#220d07", "#582111", "#8d351c", "#c24927", "#dc6d4e", "#e69983", "#f1c5b9", "#fcf1ee"] },
+      "lamplight-clay": { "role": "primary", "displayName": "Terracotta Glow (fills/pressed)", "canonical": "#BE5A3E", "tonalRamp": ["#1f0f0a", "#4f251a", "#7f3c2a", "#b05339", "#cb765f", "#da9f8f", "#eac9bf", "#faf2f0"] },
+      "lamplight-on-glow": { "role": "primary", "displayName": "Ember Roast (on-glow label)", "canonical": "#5F1501", "tonalRamp": ["#280900", "#681701", "#a72502", "#e73302", "#fd592c", "#fd8b6c", "#febdab", "#ffefeb"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Display / Wordmark", "purpose": "Omoide wordmark and welcome greeting; the only serif moments in the app." },
@@ -25,7 +35,8 @@
     },
     "shadows": [
       { "name": "card", "value": "0 1px 2px rgba(58,47,42,0.06), 0 4px 12px rgba(58,47,42,0.08)", "purpose": "Bako cards and Polaroid grid cells — barely-there lift off the paper." },
-      { "name": "float", "value": "0 6px 16px rgba(58,47,42,0.16), 0 12px 32px rgba(58,47,42,0.14)", "purpose": "Floating multi-select action bar and dragged elements — genuinely above the page." }
+      { "name": "float", "value": "0 6px 16px rgba(58,47,42,0.16), 0 12px 32px rgba(58,47,42,0.14)", "purpose": "Floating multi-select action bar and dragged elements — genuinely above the page." },
+      { "name": "glow-bloom", "value": "0 0 24px rgba(255,181,160,0.12)", "purpose": "Lamplight dark mode only: raised elements bloom instead of casting shadows." }
     ],
     "motion": [
       { "name": "rise-sheet", "value": "spring(stiffness ~300, damping ~28) or 280ms ease-out", "purpose": "Bottom sheets rise from the dock; dismiss reverses the entrance." },
@@ -101,7 +112,7 @@
   ],
   "narrative": {
     "northStar": "The Sun-Faded Shoebox",
-    "overview": "Omoide feels like pulling a cardboard shoebox down from a closet shelf: photo prints with soft white borders, handwritten trip names, paper that has warmed with age. Every surface is paper-toned, every shadow is soft afternoon light, and the single kiln-fired accent color appears only where a thumb-worn edge would be rubbed — the one primary action on a screen. Density is generous, never dense; whitespace is the mat around the print.\n\nThe world is tactile and analog against an app that is technically rigorous underneath (byte-exact originals, presigned uploads). The interface recedes; the photos carry the color. Screens read as warm paper first, photography second, chrome last.",
+    "overview": "Omoide feels like pulling a cardboard shoebox down from a closet shelf: photo prints with soft white borders, handwritten trip names, paper that has warmed with age. Every surface is paper-toned, every shadow is soft afternoon light, and the single kiln-fired accent color appears only where a thumb-worn edge would be rubbed — the one primary action on a screen. Density is generous, never dense; whitespace is the mat around the print.\n\nThe world is tactile and analog against an app that is technically rigorous underneath (byte-exact originals, presigned uploads). The interface recedes; the photos carry the color. Screens read as warm paper first, photography second, chrome last. After dark, the same shoebox is read by lamplight: warm brown-black paper, glowing clay accents, and off-white ink — a lighting change behind the same token roles, never a gray inversion.",
     "keyCharacteristics": [
       "Warm paper neutrals everywhere; no pure black, pure white, or blue anywhere",
       "One earthy accent (terracotta) used sparingly as the voice of action",
@@ -116,7 +127,9 @@
       { "name": "The Readable Ink Rule", "body": "Words a user must read are Espresso or Cocoa only. Warm Taupe may fade chrome, never copy.", "section": "colors" },
       { "name": "The Two-Weight Rule", "body": "Weights 400 and 500 exist; nothing else does. Emphasis comes from size, color, or weight 500 — never from bold, italic, or uppercase shouting.", "section": "typography" },
       { "name": "Sentence Case Rule", "body": "Every string in the UI is sentence case. \"New Bako\", never \"NEW BAKO\" or \"New bako\".", "section": "typography" },
-      { "name": "The Paper Stack Rule", "body": "Prefer tonal layering (surface color changes) over shadows. If an element rests on the page, give it a lighter paper tone before giving it a shadow.", "section": "elevation" }
+      { "name": "The Paper Stack Rule", "body": "Prefer tonal layering (surface color changes) over shadows. If an element rests on the page, give it a lighter paper tone before giving it a shadow.", "section": "elevation" },
+      { "name": "The Lamplight Rule", "body": "Dark mode is a lighting change, not a palette swap of opposite extremes: every dark token keeps its light-mode role, no pure black or pure white ever appears, and glow replaces shadow — never gray inversion.", "section": "colors" },
+      { "name": "The Lamplight Glow Rule (dark only)", "body": "Depth inverts after dark: hierarchy steps from darkest to lightest (Base #161311 → Chocolate #2A2420 → Amber #42372E), raised elements carry a faint warm bloom instead of a drop shadow, and insets read as cut-into-the-surface by being darker than their surround.", "section": "elevation" }
     ],
     "dos": [
       "Do route every color, space, radius, font, and shadow through theme tokens — zero hardcoded hex outside theme.ts (CONTRACTS §10).",
@@ -130,7 +143,9 @@
       "Don't use font weights beyond 400/500, uppercase labels, or non-sentence-case copy.",
       "Don't open a full-screen modal for a single decision; that is a bottom sheet.",
       "Don't let Warm Taupe carry readable text (use Cocoa), or Dusty Rose sit behind copy.",
-      "Don't add likes, comments, feeds, or any social-discovery pattern — Omoide is a private shelf, and its design must never imply otherwise."
+      "Don't add likes, comments, feeds, or any social-discovery pattern — Omoide is a private shelf, and its design must never imply otherwise.",
+      "Don't invert to gray for dark mode: Lamplight tokens are warm-tinted by value, glow replaces shadow, and pure black/white stay banned in both modes.",
+      "Don't introduce brand text faces (Inter, Noto Serif, etc.) in either mode — the system sans carries UI; the serif belongs to the wordmark alone."
     ]
   }
 }
