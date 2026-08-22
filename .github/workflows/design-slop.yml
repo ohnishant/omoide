@@ -1,0 +1,19 @@
+name: Design slop
+
+on:
+  pull_request:
+
+jobs:
+  slop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Detect design slop
+        run: node scripts/detect-slop.mjs --base "${{ github.event.pull_request.base.sha }}"
