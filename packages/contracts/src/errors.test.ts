@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import * as v from "valibot";
 
 import { ERROR_CODES, ERROR_STATUS, errorEnvelope, errorEnvelopeSchema } from "./errors";
 import {
@@ -34,11 +35,11 @@ describe("error codes", () => {
 
   it("envelope round-trips", () => {
     const body = errorEnvelope("quota_exceeded", "storage guard rejected");
-    expect(errorEnvelopeSchema.parse(body)).toEqual(body);
+    expect(v.parse(errorEnvelopeSchema, body)).toEqual(body);
   });
 
   it("rejects unknown codes", () => {
-    const res = errorEnvelopeSchema.safeParse({
+    const res = v.safeParse(errorEnvelopeSchema, {
       error: { code: "teapot", message: "?" },
     });
     expect(res.success).toBe(false);
