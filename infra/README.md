@@ -4,6 +4,60 @@
 CORS/lifecycle rules that `apps/api` binds against (CONTRACTS.md §8). PRD §10
 chose SST over Alchemy/Terraform/wrangler-only; do not relitigate here.
 
+## Architecture
+
+GitHub renders Mermaid natively — the diagram below is the whole picture:
+what `sst deploy` provisions per stage, how the Worker binds to it, and where
+runtime traffic enters. Solid arrows are provisioned bindings, dotted arrows
+are config injection or future paths.
+
+```mermaid
+flowchart TB
+    subgraph deploytime["Deploy time — local shell or GitHub Actions"]
+        direction LR
+        ci["GitHub Actions<br/>deploy.yml"]
+        sst["sst deploy<br/>--config infra/sst.config.ts<br/>stage: dev / prod"]
+        migrate["infra/scripts/migrate.sh<br/>wrangler d1 migrations apply"]
+    end
+
+    subgraph cf["Cloudflare account — one set of resources per stage"]
+        worker["Worker · api<br/>hello-world stub until T07<br/>serves /.well-known/* manifests"]
+        r2[("R2 bucket · omoide-{stage}<br/>private · CORS allow-list<br/>aborts incomplete multiparts after 7d")]
+        d1[("D1 · omoide-{stage}<br/>drizzle schema")]
+        secrets[("Encrypted secret store<br/>WORKOS_CLIENT_ID<br/>WORKOS_API_KEY<br/>INVITE_HMAC_SECRET")]
+        vars["Worker vars<br/>APP_URL · APP_SCHEME"]
+    end
+
+    subgraph runtime["Runtime traffic"]
+        direction LR
+        app["Omoide mobile app"]
+        crawler["Apple / Google<br/>universal-link crawlers"]
+        webapp["Future web client"]
+    end
+
+    ci --> sst
+    ci -.->|"runs after every deploy"| migrate
+    sst -->|"provisions"| worker
+    sst -->|"provisions"| r2
+    sst -->|"provisions"| d1
+    sst -->|"values set via sst secret set"| secrets
+    migrate -->|"--remote · idempotent"| d1
+
+    secrets -.->|"injected as bindings"| worker
+    vars -.->|"config"| worker
+    worker -->|"env.BUCKET"| r2
+    worker -->|"env.DB"| d1
+
+    app -->|"workers.dev URL, or<br/>OMOIDE_DOMAIN when<br/>enableDomain is on"| worker
+    crawler -->|"requires exact<br/>application/json"| worker
+    webapp -.->|"presigned PUT/GET<br/>(CORS)"| r2
+```
+
+Stage isolation: every resource name carries its stage (`omoide-dev`,
+`omoide-prod`), and prod is protected (`sst remove` refuses) and retained on
+teardown. Custom-domain routing only exists when `OMOIDE_ENABLE_DOMAIN=true`;
+otherwise the Worker answers on its workers.dev URL.
+
 ## Stack layout
 
 | File | Resource |
