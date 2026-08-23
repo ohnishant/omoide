@@ -8,7 +8,8 @@
  */
 import { Hono } from "hono";
 import type { Env, MiddlewareHandler, ValidationTargets } from "hono";
-import type { z } from "zod";
+import * as v from "valibot";
+import type { GenericSchema, InferInput, InferOutput } from "valibot";
 
 import {
   authorizeQuerySchema,
@@ -43,18 +44,18 @@ import type { AssetUrlResponse } from "./downloads";
 
 import { errorEnvelope } from "./errors";
 
-type Validation<S extends z.ZodType, T extends keyof ValidationTargets> = {
-  in: { [K in T]: z.input<S> };
-  out: { [K in T]: z.output<S> };
+type Validation<S extends GenericSchema, T extends keyof ValidationTargets> = {
+  in: { [K in T]: InferInput<S> };
+  out: { [K in T]: InferOutput<S> };
 };
 
-function vJson<E extends Env, P extends string, S extends z.ZodType>(
+function vJson<E extends Env, P extends string, S extends GenericSchema>(
   schema: S
 ): MiddlewareHandler<E, P, Validation<S, "json">> {
   return validate("json", schema) as never;
 }
 
-function vQuery<E extends Env, P extends string, S extends z.ZodType>(
+function vQuery<E extends Env, P extends string, S extends GenericSchema>(
   schema: S
 ): MiddlewareHandler<E, P, Validation<S, "query">> {
   return validate("query", schema) as never;
@@ -62,23 +63,24 @@ function vQuery<E extends Env, P extends string, S extends z.ZodType>(
 
 function validate(
   target: keyof ValidationTargets,
-  schema: z.ZodType
+  schema: GenericSchema
 ): unknown {
   return async (c: any, next: () => Promise<void>) => {
     const raw =
       target === "json"
         ? await c.req.json().catch(() => undefined)
         : c.req.query();
-    const parsed = schema.safeParse(raw);
+    const parsed = v.safeParse(schema, raw);
     if (!parsed.success) {
-      return c.json(errorEnvelope("invalid_request", parsed.error.message), 400);
+      const message = parsed.issues.map((issue) => issue.message).join(", ");
+      return c.json(errorEnvelope("invalid_request", message), 400);
     }
-    (c.set as (key: string, value: unknown) => void)(target, parsed.data);
+    (c.set as (key: string, value: unknown) => void)(target, parsed.output);
     await next();
   };
 }
 
-// ---- fixtures (typed against z.infer so c.json yields exact contract types)
+// ---- fixtures (typed against InferOutput so c.json yields exact contract types)
 
 const userFixture: User = {
   id: "u_1",
