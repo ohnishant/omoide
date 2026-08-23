@@ -4,6 +4,9 @@ node_modules/
 # turbo
 .turbo/
 
+# sst (generated on first CLI run)
+.sst/
+
 # Expo
 .expo/
 dist/

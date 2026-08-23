@@ -39,7 +39,7 @@ the handoff, not a formality.
 | T01 | Monorepo foundations | 0 | - | done |
 | T02 | contracts package | 1 | T01 | done |
 | T03 | db package | 1 | T01 | done |
-| T04 | Infra SST stack | 1 | T01 | open |
+| T04 | Infra SST stack | 1 | T01 | done |
 | T05 | Mobile foundation: theme, shell, auth | 2 | T01 | open |
 | T06 | core package: ports and domain | 2 | T02, T03 | open |
 | T07 | api app: full Worker | 3 | T02, T06 | open |
