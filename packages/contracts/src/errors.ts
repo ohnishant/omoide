@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as v from "valibot";
 
 export const ERROR_CODES = [
   "unauthorized",
@@ -29,18 +29,18 @@ export const ERROR_STATUS = {
   bako_limit_reached: 403,
 } as const satisfies Record<ErrorCode, number>;
 
-export const errorBodySchema = z.object({
-  code: z.enum(ERROR_CODES),
-  message: z.string(),
+export const errorBodySchema = v.object({
+  code: v.picklist(ERROR_CODES),
+  message: v.string(),
 });
 
-export type ErrorBody = z.infer<typeof errorBodySchema>;
+export type ErrorBody = v.InferOutput<typeof errorBodySchema>;
 
-export const errorEnvelopeSchema = z.object({
+export const errorEnvelopeSchema = v.object({
   error: errorBodySchema,
 });
 
-export type ErrorEnvelope = z.infer<typeof errorEnvelopeSchema>;
+export type ErrorEnvelope = v.InferOutput<typeof errorEnvelopeSchema>;
 
 export function errorEnvelope(code: ErrorCode, message: string): ErrorEnvelope {
   return { error: { code, message } };

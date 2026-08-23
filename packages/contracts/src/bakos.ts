@@ -1,56 +1,67 @@
-import { activityEventSchema, assetSchema, bakoDetailSchema, bakoSummarySchema, idSchema } from "./domain";
-import { z } from "zod";
+import * as v from "valibot";
+
+import {
+  activityEventSchema,
+  assetSchema,
+  bakoDetailSchema,
+  bakoSummarySchema,
+  idSchema,
+} from "./domain";
 
 /** Opaque cursor string; never a raw row id (CONTRACTS.md §1). */
-export const cursorSchema = z.string().min(1);
+export const cursorSchema = v.pipe(v.string(), v.minLength(1));
 
-export const createBakoRequestSchema = z.object({
-  name: z.string().trim().min(1),
+export const createBakoRequestSchema = v.object({
+  name: v.pipe(v.string(), v.trim(), v.minLength(1)),
 });
 
 export const createBakoResponseSchema = bakoDetailSchema;
 
-export const listBakosResponseSchema = z.object({
-  bakos: z.array(bakoSummarySchema),
+export const listBakosResponseSchema = v.object({
+  bakos: v.array(bakoSummarySchema),
 });
 
 export const getBakoResponseSchema = bakoDetailSchema;
 
-export const listAssetsQuerySchema = z.object({
-  cursor: cursorSchema.optional(),
-  memberId: idSchema.optional(),
+export const listAssetsQuerySchema = v.object({
+  cursor: v.optional(cursorSchema),
+  memberId: v.optional(idSchema),
 });
 
-export const listAssetsResponseSchema = z.object({
-  assets: z.array(assetSchema),
-  nextCursor: cursorSchema.optional(),
+export const listAssetsResponseSchema = v.object({
+  assets: v.array(assetSchema),
+  nextCursor: v.optional(cursorSchema),
 });
 
-export type ListAssetsResponse = z.infer<typeof listAssetsResponseSchema>;
+export type ListAssetsResponse = v.InferOutput<
+  typeof listAssetsResponseSchema
+>;
 
-export const listActivityQuerySchema = z.object({
-  cursor: cursorSchema.optional(),
+export const listActivityQuerySchema = v.object({
+  cursor: v.optional(cursorSchema),
 });
 
-export const listActivityResponseSchema = z.object({
-  events: z.array(activityEventSchema),
-  nextCursor: cursorSchema.optional(),
+export const listActivityResponseSchema = v.object({
+  events: v.array(activityEventSchema),
+  nextCursor: v.optional(cursorSchema),
 });
 
-export type ListActivityResponse = z.infer<typeof listActivityResponseSchema>;
+export type ListActivityResponse = v.InferOutput<
+  typeof listActivityResponseSchema
+>;
 
-export const joinPreviewResponseSchema = z.object({
-  bakoName: z.string(),
-  inviterName: z.string(),
+export const joinPreviewResponseSchema = v.object({
+  bakoName: v.string(),
+  inviterName: v.string(),
 });
 
-export const joinResponseSchema = z.object({
+export const joinResponseSchema = v.object({
   bakoId: idSchema,
 });
 
-export const devicePlatformSchema = z.enum(["ios", "android"]);
+export const devicePlatformSchema = v.picklist(["ios", "android"]);
 
-export const registerDeviceRequestSchema = z.object({
-  expoPushToken: z.string().min(1),
+export const registerDeviceRequestSchema = v.object({
+  expoPushToken: v.pipe(v.string(), v.minLength(1)),
   platform: devicePlatformSchema,
 });

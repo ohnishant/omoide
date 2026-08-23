@@ -1,29 +1,30 @@
+import * as v from "valibot";
+
 import { userSchema } from "./domain";
-import { z } from "zod";
 
-export const authorizeQuerySchema = z.object({
-  redirectUri: z.string().min(1),
+export const authorizeQuerySchema = v.object({
+  redirectUri: v.pipe(v.string(), v.minLength(1)),
 });
 
-export const authorizeResponseSchema = z.object({
-  authorizeUrl: z.string(),
-  state: z.string(),
+export const authorizeResponseSchema = v.object({
+  authorizeUrl: v.string(),
+  state: v.string(),
 });
 
-export const tokenPairResponseSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
+export const tokenPairResponseSchema = v.object({
+  accessToken: v.string(),
+  refreshToken: v.string(),
 });
 
-export const tokenRequestSchema = z.object({
-  code: z.string().min(1),
-  state: z.string().min(1),
+export const tokenRequestSchema = v.object({
+  code: v.pipe(v.string(), v.minLength(1)),
+  state: v.pipe(v.string(), v.minLength(1)),
 });
 
-export const refreshRequestSchema = z.object({
-  refreshToken: z.string().min(1),
+export const refreshRequestSchema = v.object({
+  refreshToken: v.pipe(v.string(), v.minLength(1)),
 });
 
-export const meResponseSchema = z.object({
+export const meResponseSchema = v.object({
   user: userSchema,
 });

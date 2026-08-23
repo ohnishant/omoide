@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import * as v from "valibot";
 
 import {
   activityEventSchema,
@@ -95,59 +96,64 @@ const activityEvent = {
 
 describe("round-trip parses", () => {
   it("domain types", () => {
-    expect(userSchema.parse(user)).toEqual(user);
-    expect(bakoSummarySchema.parse(bakoSummary)).toEqual(bakoSummary);
-    expect(bakoDetailSchema.parse(bakoDetail)).toEqual(bakoDetail);
-    expect(assetSchema.parse(asset)).toEqual(asset);
-    expect(activityEventSchema.parse(activityEvent)).toEqual(activityEvent);
+    expect(v.parse(userSchema, user)).toEqual(user);
+    expect(v.parse(bakoSummarySchema, bakoSummary)).toEqual(bakoSummary);
+    expect(v.parse(bakoDetailSchema, bakoDetail)).toEqual(bakoDetail);
+    expect(v.parse(assetSchema, asset)).toEqual(asset);
+    expect(v.parse(activityEventSchema, activityEvent)).toEqual(activityEvent);
   });
 
   it("me response", () => {
-    expect(meResponseSchema.parse({ user })).toEqual({ user });
+    expect(v.parse(meResponseSchema, { user })).toEqual({ user });
   });
 
   it("auth routes", () => {
-    expect(authorizeQuerySchema.parse({ redirectUri: "omoide://" })).toEqual({
+    expect(v.parse(authorizeQuerySchema, { redirectUri: "omoide://" })).toEqual({
       redirectUri: "omoide://",
     });
     expect(
-      authorizeResponseSchema.parse({ authorizeUrl: "https://x", state: "s" })
+      v.parse(authorizeResponseSchema, { authorizeUrl: "https://x", state: "s" })
     ).toEqual({ authorizeUrl: "https://x", state: "s" });
-    expect(tokenRequestSchema.parse({ code: "c", state: "s" })).toEqual({
+    expect(v.parse(tokenRequestSchema, { code: "c", state: "s" })).toEqual({
       code: "c",
       state: "s",
     });
-    expect(refreshRequestSchema.parse({ refreshToken: "r" })).toEqual({
+    expect(v.parse(refreshRequestSchema, { refreshToken: "r" })).toEqual({
       refreshToken: "r",
     });
     expect(
-      tokenPairResponseSchema.parse({ accessToken: "a", refreshToken: "r" })
+      v.parse(tokenPairResponseSchema, { accessToken: "a", refreshToken: "r" })
     ).toEqual({ accessToken: "a", refreshToken: "r" });
   });
 
   it("resource routes", () => {
-    expect(createBakoRequestSchema.parse({ name: "Shoebox" })).toEqual({
+    expect(v.parse(createBakoRequestSchema, { name: "Shoebox" })).toEqual({
       name: "Shoebox",
     });
-    expect(listBakosResponseSchema.parse({ bakos: [bakoSummary] })).toEqual({
+    expect(v.parse(listBakosResponseSchema, { bakos: [bakoSummary] })).toEqual({
       bakos: [bakoSummary],
     });
-    expect(listAssetsQuerySchema.parse({ cursor: "c", memberId: "u_9" })).toEqual(
-      { cursor: "c", memberId: "u_9" }
-    );
-    expect(listAssetsQuerySchema.parse({})).toEqual({});
-    expect(listAssetsResponseSchema.parse({ assets: [asset] })).toEqual({
+    expect(
+      v.parse(listAssetsQuerySchema, { cursor: "c", memberId: "u_9" })
+    ).toEqual({ cursor: "c", memberId: "u_9" });
+    expect(v.parse(listAssetsQuerySchema, {})).toEqual({});
+    expect(v.parse(listAssetsResponseSchema, { assets: [asset] })).toEqual({
       assets: [asset],
     });
     expect(
-      listActivityResponseSchema.parse({ events: [activityEvent], nextCursor: "n" })
+      v.parse(listActivityResponseSchema, {
+        events: [activityEvent],
+        nextCursor: "n",
+      })
     ).toEqual({ events: [activityEvent], nextCursor: "n" });
     expect(
-      joinPreviewResponseSchema.parse({ bakoName: "N", inviterName: "A" })
+      v.parse(joinPreviewResponseSchema, { bakoName: "N", inviterName: "A" })
     ).toEqual({ bakoName: "N", inviterName: "A" });
-    expect(joinResponseSchema.parse({ bakoId: "b_1" })).toEqual({ bakoId: "b_1" });
+    expect(v.parse(joinResponseSchema, { bakoId: "b_1" })).toEqual({
+      bakoId: "b_1",
+    });
     expect(
-      registerDeviceRequestSchema.parse({
+      v.parse(registerDeviceRequestSchema, {
         expoPushToken: "ExponentPushToken[x]",
         platform: "ios",
       })
@@ -162,13 +168,15 @@ describe("round-trip parses", () => {
       contentHash: HASH,
       kind: "image",
     };
-    expect(uploadInitRequestSchema.parse({ ...base, thumb: null })).toEqual({
+    expect(v.parse(uploadInitRequestSchema, { ...base, thumb: null })).toEqual({
       ...base,
       thumb: null,
     });
     const thumb = { byteSize: 40211, contentHash: HASH };
-    expect(uploadThumbSpecSchema.parse(thumb)).toEqual(thumb);
-    expect(uploadInitRequestSchema.parse({ ...base, kind: "video", thumb })).toEqual({
+    expect(v.parse(uploadThumbSpecSchema, thumb)).toEqual(thumb);
+    expect(
+      v.parse(uploadInitRequestSchema, { ...base, kind: "video", thumb })
+    ).toEqual({
       ...base,
       kind: "video",
       thumb,
@@ -191,30 +199,34 @@ describe("round-trip parses", () => {
       partsCount: 7,
       thumbnail: null,
     };
-    expect(singleUploadResponseSchema.parse(single)).toEqual(single);
-    expect(multipartUploadResponseSchema.parse(multi)).toEqual(multi);
-    expect(uploadInitResponseSchema.parse(single)).toEqual(single);
-    expect(uploadInitResponseSchema.parse(multi)).toEqual(multi);
+    expect(v.parse(singleUploadResponseSchema, single)).toEqual(single);
+    expect(v.parse(multipartUploadResponseSchema, multi)).toEqual(multi);
+    expect(v.parse(uploadInitResponseSchema, single)).toEqual(single);
+    expect(v.parse(uploadInitResponseSchema, multi)).toEqual(multi);
   });
 
   it("upload parts + complete + download url", () => {
     const part = { partNumber: 1, etag: "e" };
-    expect(completedPartSchema.parse(part)).toEqual(part);
-    expect(presignedPartSchema.parse({ partNumber: 2, url: "u" })).toEqual({
+    expect(v.parse(completedPartSchema, part)).toEqual(part);
+    expect(v.parse(presignedPartSchema, { partNumber: 2, url: "u" })).toEqual({
       partNumber: 2,
       url: "u",
     });
-    expect(listPartsResponseSchema.parse({ parts: [] })).toEqual({ parts: [] });
-    expect(uploadCompleteRequestSchema.parse({ parts: [part] })).toEqual({
+    expect(v.parse(listPartsResponseSchema, { parts: [] })).toEqual({
+      parts: [],
+    });
+    expect(v.parse(uploadCompleteRequestSchema, { parts: [part] })).toEqual({
       parts: [part],
     });
     expect(
-      uploadCompleteResponseSchema.parse({ status: "ready", asset })
+      v.parse(uploadCompleteResponseSchema, { status: "ready", asset })
     ).toEqual({ status: "ready", asset });
     expect(
-      uploadCompleteResponseSchema.parse({ status: "over_quota", asset })
+      v.parse(uploadCompleteResponseSchema, { status: "over_quota", asset })
     ).toEqual({ status: "over_quota", asset });
-    expect(assetUrlResponseSchema.parse({ url: "g", expiresAt: 60_000 })).toEqual({
+    expect(
+      v.parse(assetUrlResponseSchema, { url: "g", expiresAt: 60_000 })
+    ).toEqual({
       url: "g",
       expiresAt: 60_000,
     });
@@ -224,52 +236,63 @@ describe("round-trip parses", () => {
 describe("negative parses", () => {
   it("rejects bad content hash", () => {
     expect(
-      uploadInitRequestSchema.safeParse({
-        fileName: "f",
-        byteSize: 1,
-        contentType: "image/heic",
-        contentHash: "nothex",
-        kind: "image",
-        thumb: null,
-      }).success
+      v.safeParse(
+        uploadInitRequestSchema,
+        {
+          fileName: "f",
+          byteSize: 1,
+          contentType: "image/heic",
+          contentHash: "nothex",
+          kind: "image",
+          thumb: null,
+        }
+      ).success
     ).toBe(false);
   });
 
   it("rejects unknown discriminator value (mode is the switch)", () => {
     expect(
-      uploadInitResponseSchema.safeParse({ mode: "turbo", assetId: "x" }).success
+      v.safeParse(uploadInitResponseSchema, {
+        mode: "turbo",
+        assetId: "x",
+      }).success
     ).toBe(false);
   });
 
   it("rejects non-integer epoch ms", () => {
     expect(
-      assetUrlResponseSchema.safeParse({ url: "g", expiresAt: 1.5 }).success
+      v.safeParse(assetUrlResponseSchema, { url: "g", expiresAt: 1.5 }).success
     ).toBe(false);
   });
 
   it("rejects negative byte sizes", () => {
     expect(
-      uploadInitRequestSchema.safeParse({
-        fileName: "f",
-        byteSize: -5,
-        contentType: "image/heic",
-        contentHash: HASH,
-        kind: "image",
-        thumb: null,
-      }).success
+      v.safeParse(
+        uploadInitRequestSchema,
+        {
+          fileName: "f",
+          byteSize: -5,
+          contentType: "image/heic",
+          contentHash: HASH,
+          kind: "image",
+          thumb: null,
+        }
+      ).success
     ).toBe(false);
   });
 });
 
 describe("parts query transform", () => {
   it("parses comma-separated numbers", () => {
-    expect(listPartsQuerySchema.parse({ numbers: "1,2,3" })).toEqual({
+    expect(v.parse(listPartsQuerySchema, { numbers: "1,2,3" })).toEqual({
       numbers: [1, 2, 3],
     });
   });
 
   it("rejects garbage and missing values", () => {
-    expect(listPartsQuerySchema.safeParse({ numbers: "1,,3" }).success).toBe(false);
-    expect(listPartsQuerySchema.safeParse({}).success).toBe(false);
+    expect(
+      v.safeParse(listPartsQuerySchema, { numbers: "1,,3" }).success
+    ).toBe(false);
+    expect(v.safeParse(listPartsQuerySchema, {}).success).toBe(false);
   });
 });
