@@ -49,4 +49,30 @@ so core and api never hand-write them.
 
 ## Async log
 
-(append: date, what you decided or hit, why)
+- 2026-08-22: Schema written exactly to CONTRACTS §6 (six tables, epoch ms
+  integers, text pks for app-side `crypto.randomUUID()` ids, no autoincrement).
+  Enum values are drizzle `{ enum: [...] }` text columns matching the wire
+  enums. Exported `$inferSelect`/`$inferInsert` row types from the package root
+  (`UserRow`, `BakoRow`, `MembershipRow`, `AssetRow`, `ActivityRow`,
+  `UploadSessionRow` + `New*Row`) so T06/T07 never hand-write them.
+- 2026-08-22: FK pragma findings — schema declares FKs with no ON DELETE
+  actions, per ticket guidance. Verified locally on better-sqlite3 (same SQLite
+  engine family): `foreign_keys` defaults to ON at open, violations are
+  rejected at insert, and parent deletes are REJECTED rather than cascading.
+  D1 documents the same enforcement plus `PRAGMA defer_foreign_keys` inside a
+  transaction. Consequence logged for T06: core must delete in dependency
+  order explicitly (assets/activity/memberships/sessions before bakos/users);
+  do not assume cascade deletes anywhere.
+- 2026-08-22: drizzle.config.ts kept in-package pointing at `local/generate.db`
+  (gitignored scratch); production apply path stays `wrangler d1 migrations
+  apply migrations/` wired by T04. Migration SQL committed as
+  `migrations/0000_windy_baron_zemo.sql`. Test (`pnpm --filter @omoide/db test`)
+  applies the committed migration folder to a fresh sqlite file via drizzle's
+  migrator and round-trips one row per table through the inferred types;
+  also asserts FK enforcement behavior above. Dev deps added: drizzle-orm,
+  drizzle-kit, better-sqlite3 (+types) — better-sqlite3 is test-only, never
+  imported from src (dependency law holds; zero imports outside drizzle + node
+  types in src).
+- 2026-08-22: tsconfig uses `allowImportingTsExtensions` +
+  `rewriteRelativeImportExtensions` so src can use explicit `.ts` imports that
+  node's native TS runner needs for tests while tsc still emits clean dist js.
