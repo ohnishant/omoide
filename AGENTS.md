@@ -20,7 +20,30 @@ integration surface: `docs/tickets/CONTRACTS.md`.
 4. **Ticket loop.** Work happens one ticket at a time per
    `docs/tickets/README.md`: read PRD + CONTRACTS.md + ticket, implement only
    inside the ticket's owned paths, verify, update the ticket's async log and
-   status table, commit as `T<nn>: <summary>`.
+   status table, commit per the git conventions below.
+
+## Git conventions
+
+Conventional commits throughout. The subject describes the work; the ticket id
+rides along in parentheses and never leads.
+
+- **Commit subject:** `<type>(<scope>): <imperative summary> (<Tnn>)`
+  - Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `ci`,
+    `design`.
+  - Scope is the area touched: `db`, `core`, `contracts`, `api`, `mobile`,
+    `infra`, `tickets`, `deps`. Cross-cutting work drops the scope.
+  - Summary says what changed and why it matters, lowercase, no period:
+    `feat(db): drizzle schema for six tables + committed migration sql (T03)`
+    beats `T03: db package`.
+  - Individual commits on a multi-commit branch may drop `(Tnn)`; the
+    squash/merge commit that lands on main keeps it.
+- **Branches:** `<type>/t<nn>-<short-slug>`, e.g. `feat/t03-db-package`,
+  `fix/t09-retry-storm`. The slug names the work.
+- **PR titles** mirror the landing commit exactly, so the squash commit needs
+  no rewrite: `feat(contracts): zod schemas + hono apptype rpc surface (T02)`.
+- **PR bodies:** two short lists. `## Summary` bullets of actual behavior
+  change, `## Testing` commands run. Link the ticket file
+  (`docs/tickets/Tnn-*.md`) when the PR closes it.
 
 ## Commands
 
