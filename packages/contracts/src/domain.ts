@@ -1,82 +1,92 @@
-import { z } from "zod";
+import * as v from "valibot";
 
 /** All wire timestamps are epoch ms integers, matching db columns. */
-export const epochMsSchema = z.number().int().nonnegative();
+export const epochMsSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
 
-export const idSchema = z.string().min(1);
+export const idSchema = v.pipe(v.string(), v.minLength(1));
 
-export const sha256HexSchema = z.string().regex(/^[0-9a-f]{64}$/i);
+export const sha256HexSchema = v.pipe(
+  v.string(),
+  v.regex(/^[0-9a-f]{64}$/i)
+);
 
-export const userPlanSchema = z.enum(["free", "paid"]);
+export const userPlanSchema = v.picklist(["free", "paid"]);
 
-export const userSchema = z.object({
+export const userSchema = v.object({
   id: idSchema,
-  email: z.string(),
-  name: z.string(),
+  email: v.string(),
+  name: v.string(),
   plan: userPlanSchema,
-  storageUsedBytes: z.number().int().nonnegative(),
-  storageQuotaBytes: z.number().int().nonnegative(),
-  bakoCount: z.number().int().nonnegative(),
+  storageUsedBytes: v.pipe(v.number(), v.integer(), v.minValue(0)),
+  storageQuotaBytes: v.pipe(v.number(), v.integer(), v.minValue(0)),
+  bakoCount: v.pipe(v.number(), v.integer(), v.minValue(0)),
 });
 
-export type User = z.infer<typeof userSchema>;
+export type User = v.InferOutput<typeof userSchema>;
 
-export const memberSchema = z.object({
+export const memberSchema = v.object({
   userId: idSchema,
-  name: z.string(),
-  avatarFillIndex: z.number().int().nonnegative(),
+  name: v.string(),
+  avatarFillIndex: v.pipe(v.number(), v.integer(), v.minValue(0)),
 });
 
-export type Member = z.infer<typeof memberSchema>;
+export type Member = v.InferOutput<typeof memberSchema>;
 
-export const bakoSummarySchema = z.object({
+export const bakoSummarySchema = v.object({
   id: idSchema,
-  name: z.string(),
-  memberCount: z.number().int().nonnegative(),
-  assetCount: z.number().int().nonnegative(),
-  newCount: z.number().int().nonnegative(),
-  coverThumbKeys: z.array(z.string()).max(4),
-  inviteUrl: z.string(),
+  name: v.string(),
+  memberCount: v.pipe(v.number(), v.integer(), v.minValue(0)),
+  assetCount: v.pipe(v.number(), v.integer(), v.minValue(0)),
+  newCount: v.pipe(v.number(), v.integer(), v.minValue(0)),
+  coverThumbKeys: v.pipe(v.array(v.string()), v.maxLength(4)),
+  inviteUrl: v.string(),
   createdAt: epochMsSchema,
 });
 
-export type BakoSummary = z.infer<typeof bakoSummarySchema>;
+export type BakoSummary = v.InferOutput<typeof bakoSummarySchema>;
 
-export const bakoDetailSchema = bakoSummarySchema.extend({
-  members: z.array(memberSchema),
-  storageUsedBytes: z.number().int().nonnegative(),
+// valibot has no `.extend`; spread the entries to keep the same shape.
+export const bakoDetailSchema = v.object({
+  ...bakoSummarySchema.entries,
+  members: v.array(memberSchema),
+  storageUsedBytes: v.pipe(v.number(), v.integer(), v.minValue(0)),
 });
 
-export type BakoDetail = z.infer<typeof bakoDetailSchema>;
+export type BakoDetail = v.InferOutput<typeof bakoDetailSchema>;
 
-export const assetStatusSchema = z.enum(["pending", "ready", "over_quota", "failed"]);
+export const assetStatusSchema = v.picklist([
+  "pending",
+  "ready",
+  "over_quota",
+  "failed",
+]);
 
-export const assetSchema = z.object({
+export const assetSchema = v.object({
   id: idSchema,
   bakoId: idSchema,
   uploaderId: idSchema,
-  uploaderName: z.string(),
-  fileName: z.string(),
-  contentType: z.string(),
-  byteSize: z.number().int().nonnegative(),
+  uploaderName: v.string(),
+  fileName: v.string(),
+  contentType: v.string(),
+  byteSize: v.pipe(v.number(), v.integer(), v.minValue(0)),
   contentHash: sha256HexSchema,
-  thumbKey: z.string().nullable(),
+  thumbKey: v.nullable(v.string()),
   status: assetStatusSchema,
-  takenAt: epochMsSchema.nullable(),
+  takenAt: v.nullable(epochMsSchema),
   createdAt: epochMsSchema,
 });
 
-export type Asset = z.infer<typeof assetSchema>;
+export type Asset = v.InferOutput<typeof assetSchema>;
 
-export const activityEventTypeSchema = z.enum(["upload", "join"]);
+export const activityEventTypeSchema = v.picklist(["upload", "join"]);
 
-export const activityEventSchema = z.object({
+export const activityEventSchema = v.object({
   id: idSchema,
   bakoId: idSchema,
   type: activityEventTypeSchema,
-  actorName: z.string(),
-  assetId: idSchema.nullable(),
+  actorName: v.string(),
+  assetId: v.nullable(idSchema),
   createdAt: epochMsSchema,
 });
 
-export type ActivityEvent = z.infer<typeof activityEventSchema>;
+export type ActivityEvent = v.InferOutput<typeof activityEventSchema>;
