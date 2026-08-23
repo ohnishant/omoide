@@ -63,3 +63,29 @@ This is a library swap, not a contract change.
 ## Async log
 
 (append: date, what you decided or hit, why)
+
+- 2026-08-23: Migrated in review-sized chunks on `t3code/valibot-migration`
+  (add dep → port schemas per module → re-port middleware → test call sites →
+  drop zod). Intermediate commits are `[WIP]`-tagged and NOT individually
+  buildable: domain→bakos/uploads, schemas→app-type middleware typing, and
+  tests↔schemas are mutually coupled, so only the branch tip is a coherent
+  tree. Chose `[WIP]` subject prefix over Conventional Commits `!`, which
+  means breaking change, not broken build.
+- 2026-08-23: API mapping surprises worth remembering:
+  - valibot has no `.extend`; `bakoDetailSchema` spreads
+    `bakoSummarySchema.entries`. Adding fields to the summary silently flows
+    into detail — same as zod extend, but now it is spread-order dependent.
+  - `z.enum(TUPLE)` → `v.picklist(ERROR_CODES)`; picklist accepts the readonly
+    tuple directly.
+  - `.trim()` is an effect inside `v.pipe`, not a chainable method:
+    `v.pipe(v.string(), v.trim(), v.minLength(1))`.
+  - Middleware ported by hand onto `GenericSchema` +
+    `InferInput`/`InferOutput` (same `{in,out}` shape as before) instead of
+    adopting `@hono/valibot-validator` — keeps runtime deps at exactly
+    `{ valibot, hono }` and client inference byte-identical. `@hono/
+    valibot-validator` was NOT added; T07/T08 can still adopt it later if
+    they want, via their own tickets.
+  - valibot `safeParse` failure carries `issues[]`, not zod's single
+    `error.message`; the 400 invalid_request envelope now joins issue
+    messages with ", ". Message text differs from zod but the envelope shape
+    (CONTRACTS.md §1) is unchanged.

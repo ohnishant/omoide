@@ -52,7 +52,7 @@ the handoff, not a formality.
 | T14 | Invites, join, push | 5 | T07, T12 | open |
 | T15 | Create, onboarding, paywall | 5 | T08 | open |
 | T16 | Design finalization gate | 6 | all above | done |
-| T17 | Valibot migration (contracts) | - | T02 | open |
+| T17 | Valibot migration (contracts) | - | T02 | done |
 
 Waves are batches that can run concurrently with no file conflicts. Within a
 wave, tickets share no owned paths. Cross-wave dependencies come from contracts
